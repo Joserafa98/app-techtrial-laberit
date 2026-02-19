@@ -82,7 +82,7 @@ export default function UserForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-900 p-4 md:p-8">
       <div className="max-w-md mx-auto bg-white rounded-xl shadow p-6 md:p-8">
         <button onClick={() => navigate(-1)} className="text-blue-600 hover:underline mb-6 block">
           ← Volver
@@ -104,14 +104,14 @@ export default function UserForm() {
           <div className="flex gap-2">
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="text-sm text-blue-600 border border-blue-300 px-3 py-1 rounded-lg hover:bg-blue-50 transition"
+              className="text-sm text-blue-600 border border-blue-300 px-3 py-1 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)]"
             >
               Subir foto
             </button>
             {avatar && (
               <button
                 onClick={() => setAvatar(null)}
-                className="text-sm text-gray-400 border border-gray-200 px-3 py-1 rounded-lg hover:bg-gray-50 transition"
+                className="text-sm text-gray-400 border border-gray-200 px-3 py-1 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-[0_0_15px_rgba(255,255,255,0.3)]"
               >
                 Quitar foto
               </button>
@@ -177,7 +177,7 @@ export default function UserForm() {
         <button
           onClick={handleSubmit}
           disabled={saving}
-          className="w-full mt-8 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+          className="w-full mt-8 bg-blue-600 text-white py-2 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-[0_0_20px_rgba(59,130,246,0.7)] disabled:opacity-50 disabled:hover:scale-100 disabled:hover:shadow-none"
         >
           {saving ? 'Guardando...' : isEditing ? 'Guardar cambios' : 'Crear usuario'}
         </button>
