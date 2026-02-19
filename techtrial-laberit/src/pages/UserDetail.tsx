@@ -1,14 +1,16 @@
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUsers } from '../context/UsersContext';
+import ConfirmModal from '../components/ConfirmModal';
 
 export default function UserDetail() {
   const { id } = useParams<{ id: string }>();
   const { getUserById, removeUser } = useUsers();
   const navigate = useNavigate();
   const user = getUserById(Number(id));
+  const [showModal, setShowModal] = useState(false);
 
   const handleDelete = () => {
-    if (!confirm('¿Estás seguro de que quieres eliminar este usuario?')) return;
     removeUser(Number(id));
     navigate('/');
   };
@@ -64,13 +66,21 @@ export default function UserDetail() {
             Editar
           </button>
           <button
-            onClick={handleDelete}
+            onClick={() => setShowModal(true)}
             className="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition"
           >
             Eliminar
           </button>
         </div>
       </div>
+
+      {showModal && (
+        <ConfirmModal
+          message="Esta acción no se puede deshacer. ¿Quieres eliminar este usuario?"
+          onConfirm={handleDelete}
+          onCancel={() => setShowModal(false)}
+        />
+      )}
     </div>
   );
 }

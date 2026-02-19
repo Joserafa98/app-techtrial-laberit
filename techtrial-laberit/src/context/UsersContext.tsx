@@ -64,11 +64,11 @@ export function UsersProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    dispatch({ type: 'SET_LOADING', payload: true });
-    Promise.all([getUsers(1), getUsers(2)]).then(([res1, res2]) => {
-      dispatch({ type: 'SET_USERS', payload: [...res1.data.data, ...res2.data.data] });
-    });
-  }, []);
+  dispatch({ type: 'SET_LOADING', payload: true });
+  getUsers(1).then(res => {
+    dispatch({ type: 'SET_USERS', payload: res.data.data });
+  });
+}, []);
 
   const totalPages = Math.ceil(state.allUsers.length / USERS_PER_PAGE);
   const users = state.allUsers.slice(
