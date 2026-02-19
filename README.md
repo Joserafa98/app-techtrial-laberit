@@ -92,7 +92,7 @@ cp .env.example .env
 4. Abre el archivo `.env` y añade tu API key de reqres.in:
 
 ```
-VITE_API_KEY=tu_api_key_aqui
+REQRES_API_KEY=tu_api_key_aqui
 ```
 
 Puedes obtener una API key gratuita registrándote en [https://reqres.in](https://reqres.in/).
