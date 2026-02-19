@@ -73,8 +73,8 @@ Esta decisión se tomó para ofrecer una experiencia más completa y cercana a u
 1. Clona el repositorio:
 
 ```bash
-git clone https://github.com/tu-usuario/tu-repositorio.git
-cd tu-repositorio
+git clone https://github.com/Joserafa98/app-techtrial-laberit.git
+cd app-techtrial-laberit
 ```
 
 2. Instala las dependencias:
