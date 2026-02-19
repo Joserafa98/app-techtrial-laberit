@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUsers } from '../context/UsersContext';
 import ConfirmModal from '../components/ConfirmModal';
+import Toast from '../components/Toast';
+import { useToast } from '../hooks/useToast';
 
 export default function UserDetail() {
   const { id } = useParams<{ id: string }>();
@@ -9,33 +11,26 @@ export default function UserDetail() {
   const navigate = useNavigate();
   const user = getUserById(Number(id));
   const [showModal, setShowModal] = useState(false);
+  const { toast, showToast, hideToast } = useToast();
 
   const handleDelete = () => {
-    removeUser(Number(id));
-    navigate('/');
-  };
+  setShowModal(false);
+  removeUser(Number(id));
+  navigate('/', { state: { deleted: true } });
+};
 
   if (!user) return <p className="text-center mt-20 text-gray-500">Usuario no encontrado.</p>;
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-md mx-auto bg-white rounded-xl shadow p-8">
-        <button
-          onClick={() => navigate('/')}
-          className="text-blue-600 hover:underline mb-6 block"
-        >
+        <button onClick={() => navigate('/')} className="text-blue-600 hover:underline mb-6 block">
           ← Volver
         </button>
 
         <div className="flex flex-col items-center mb-8">
-          <img
-            src={user.avatar}
-            alt={user.first_name}
-            className="w-28 h-28 rounded-full mb-4 shadow"
-          />
-          <h1 className="text-2xl font-bold text-gray-800">
-            {user.first_name} {user.last_name}
-          </h1>
+          <img src={user.avatar} alt={user.first_name} className="w-28 h-28 rounded-full mb-4 shadow" />
+          <h1 className="text-2xl font-bold text-gray-800">{user.first_name} {user.last_name}</h1>
           <p className="text-gray-400">{user.email}</p>
         </div>
 
@@ -81,6 +76,8 @@ export default function UserDetail() {
           onCancel={() => setShowModal(false)}
         />
       )}
+
+      {toast && <Toast message={toast.message} type={toast.type} onClose={hideToast} />}
     </div>
   );
 }

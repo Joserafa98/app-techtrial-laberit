@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useUsers } from '../context/UsersContext';
+import Toast from '../components/Toast';
+import { useToast } from '../hooks/useToast';
 
 interface FormErrors {
   first_name?: string;
@@ -13,6 +15,7 @@ export default function UserForm() {
   const isEditing = Boolean(id);
   const navigate = useNavigate();
   const { getUserById, addUser, editUser } = useUsers();
+  const { toast, showToast, hideToast } = useToast();
 
   const [form, setForm] = useState({ first_name: '', last_name: '', email: '' });
   const [errors, setErrors] = useState<FormErrors>({});
@@ -48,10 +51,12 @@ export default function UserForm() {
     setSaving(true);
     if (isEditing) {
       editUser(Number(id), form);
-      navigate(`/users/${id}`);
+      showToast('Usuario actualizado correctamente');
+      setTimeout(() => navigate(`/users/${id}`), 1500);
     } else {
       addUser(form);
-      navigate('/');
+      showToast('Usuario creado correctamente');
+      setTimeout(() => navigate('/'), 1500);
     }
     setSaving(false);
   };
@@ -59,10 +64,7 @@ export default function UserForm() {
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-md mx-auto bg-white rounded-xl shadow p-8">
-        <button
-          onClick={() => navigate(-1)}
-          className="text-blue-600 hover:underline mb-6 block"
-        >
+        <button onClick={() => navigate(-1)} className="text-blue-600 hover:underline mb-6 block">
           ← Volver
         </button>
 
@@ -116,6 +118,8 @@ export default function UserForm() {
           {saving ? 'Guardando...' : isEditing ? 'Guardar cambios' : 'Crear usuario'}
         </button>
       </div>
+
+      {toast && <Toast message={toast.message} type={toast.type} onClose={hideToast} />}
     </div>
   );
 }

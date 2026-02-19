@@ -1,10 +1,21 @@
+import { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useUsers } from '../context/UsersContext';
-import { useNavigate } from 'react-router-dom';
+import Toast from '../components/Toast';
+import { useToast } from '../hooks/useToast';
 
 export default function UserList() {
   const { state, setPage } = useUsers();
   const { users, currentPage, totalPages, loading } = state;
   const navigate = useNavigate();
+  const location = useLocation();
+  const { toast, showToast, hideToast } = useToast();
+
+  useEffect(() => {
+    if (location.state?.deleted) {
+      showToast('Usuario eliminado correctamente');
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
@@ -61,6 +72,8 @@ export default function UserList() {
           </button>
         </div>
       </div>
+
+      {toast && <Toast message={toast.message} type={toast.type} onClose={hideToast} />}
     </div>
   );
 }
