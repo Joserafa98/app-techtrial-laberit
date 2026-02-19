@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function UserList() {
   const { state, setPage } = useUsers();
-  const { users, page, totalPages, loading } = state;
+  const { users, currentPage, totalPages, loading } = state;
   const navigate = useNavigate();
 
   return (
@@ -45,16 +45,16 @@ export default function UserList() {
 
         <div className="flex justify-center gap-4 mt-8">
           <button
-            onClick={() => setPage(page - 1)}
-            disabled={page === 1}
+            onClick={() => setPage(currentPage - 1)}
+            disabled={currentPage === 1}
             className="px-4 py-2 bg-white border rounded-lg disabled:opacity-40 hover:bg-gray-100 transition"
           >
             Anterior
           </button>
-          <span className="py-2 text-gray-600">Página {page} de {totalPages}</span>
+          <span className="py-2 text-gray-600">Página {currentPage} de {totalPages}</span>
           <button
-            onClick={() => setPage(page + 1)}
-            disabled={page === totalPages}
+            onClick={() => setPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
             className="px-4 py-2 bg-white border rounded-lg disabled:opacity-40 hover:bg-gray-100 transition"
           >
             Siguiente

@@ -41,7 +41,12 @@ function usersReducer(state: UsersState, action: Action): UsersState {
 
 // Context
 interface UsersContextType {
-  state: UsersState;
+  state: {
+    users: User[];
+    currentPage: number;
+    totalPages: number;
+    loading: boolean;
+  };
   getUserById: (id: number) => User | undefined;
   addUser: (data: Omit<User, 'id' | 'avatar'>) => void;
   editUser: (id: number, data: Omit<User, 'id' | 'avatar'>) => void;
