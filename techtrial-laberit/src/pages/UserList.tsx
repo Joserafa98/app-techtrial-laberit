@@ -6,7 +6,7 @@ import { useToast } from '../hooks/useToast';
 
 export default function UserList() {
   const { state, setPage } = useUsers();
-  const { users, currentPage, totalPages, loading } = state;
+  const { users, currentPage, totalPages, loading, error } = state;
   const navigate = useNavigate();
   const location = useLocation();
   const { toast, showToast, hideToast } = useToast();
@@ -18,19 +18,29 @@ export default function UserList() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="max-w-4xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">Usuarios</h1>
+        <div className="flex justify-between items-center mb-6 md:mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Usuarios</h1>
           <button
             onClick={() => navigate('/users/new')}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+            className="bg-blue-600 text-white px-3 py-2 md:px-4 text-sm md:text-base rounded-lg hover:bg-blue-700 transition"
           >
             + Crear usuario
           </button>
         </div>
 
-        {loading ? (
+        {error ? (
+          <div className="flex flex-col items-center justify-center mt-20 gap-4">
+            <p className="text-red-500 text-center">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+            >
+              Reintentar
+            </button>
+          </div>
+        ) : loading ? (
           <p className="text-center text-gray-500">Cargando...</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
