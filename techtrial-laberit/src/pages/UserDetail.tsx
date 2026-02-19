@@ -14,23 +14,32 @@ export default function UserDetail() {
   const { toast, showToast, hideToast } = useToast();
 
   const handleDelete = () => {
-  setShowModal(false);
-  removeUser(Number(id));
-  navigate('/', { state: { deleted: true } });
-};
+    setShowModal(false);
+    removeUser(Number(id));
+    navigate('/', { state: { deleted: true } });
+  };
 
   if (!user) return <p className="text-center mt-20 text-gray-500">Usuario no encontrado.</p>;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-900 p-4 md:p-8">
       <div className="max-w-md mx-auto bg-white rounded-xl shadow p-6 md:p-8">
-        <button onClick={() => navigate('/')} className="text-blue-600 hover:underline mb-6 block">
+        <button
+          onClick={() => navigate('/')}
+          className="text-blue-600 hover:underline mb-6 block"
+        >
           ← Volver
         </button>
 
         <div className="flex flex-col items-center mb-8">
-          <img src={user.avatar} alt={user.first_name} className="w-28 h-28 rounded-full mb-4 shadow" />
-          <h1 className="text-2xl font-bold text-gray-800">{user.first_name} {user.last_name}</h1>
+          <img
+            src={user.avatar}
+            alt={user.first_name}
+            className="w-28 h-28 rounded-full mb-4 shadow"
+          />
+          <h1 className="text-2xl font-bold text-gray-800">
+            {user.first_name} {user.last_name}
+          </h1>
           <p className="text-gray-400">{user.email}</p>
         </div>
 
@@ -56,13 +65,13 @@ export default function UserDetail() {
         <div className="flex gap-4">
           <button
             onClick={() => navigate(`/users/${id}/edit`)}
-            className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+            className="flex-1 bg-blue-600 text-white py-2 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-[0_0_20px_rgba(59,130,246,0.7)]"
           >
             Editar
           </button>
           <button
             onClick={() => setShowModal(true)}
-            className="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition"
+            className="flex-1 bg-red-500 text-white py-2 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-[0_0_20px_rgba(239,68,68,0.7)]"
           >
             Eliminar
           </button>

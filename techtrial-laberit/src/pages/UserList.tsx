@@ -12,19 +12,20 @@ export default function UserList() {
   const { toast, showToast, hideToast } = useToast();
 
   useEffect(() => {
-    if (location.state?.deleted) {
-      showToast('Usuario eliminado correctamente');
-    }
-  }, []);
+  if (location.state?.deleted) {
+    showToast('Usuario eliminado correctamente', 'error');
+    navigate('/', { replace: true, state: {} });
+  }
+}, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-blue-900 p-4 md:p-8">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-6 md:mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Usuarios</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-white">Usuarios</h1>
           <button
             onClick={() => navigate('/users/new')}
-            className="bg-blue-600 text-white px-3 py-2 md:px-4 text-sm md:text-base rounded-lg hover:bg-blue-700 transition"
+           className="bg-blue-600 text-white px-3 py-2 md:px-4 text-sm md:text-base rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-[0_0_20px_rgba(59,130,246,0.7)]"
           >
             + Crear usuario
           </button>
@@ -48,7 +49,7 @@ export default function UserList() {
               <div
                 key={user.id}
                 onClick={() => navigate(`/users/${user.id}`)}
-                className="bg-white rounded-xl shadow p-6 flex flex-col items-center cursor-pointer hover:shadow-md transition"
+                className="bg-white rounded-xl shadow p-6 flex flex-col items-center cursor-pointer transition-transform duration-200 hover:scale-105"
               >
                 <img
                   src={user.avatar}
@@ -68,7 +69,7 @@ export default function UserList() {
           <button
             onClick={() => setPage(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-4 py-2 bg-white border rounded-lg disabled:opacity-40 hover:bg-gray-100 transition"
+            className="px-4 py-2 bg-white border rounded-lg disabled:opacity-40 transition-all duration-200 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.4)]"
           >
             Anterior
           </button>
