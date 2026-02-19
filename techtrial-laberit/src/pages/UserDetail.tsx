@@ -22,8 +22,8 @@ export default function UserDetail() {
   if (!user) return <p className="text-center mt-20 text-gray-500">Usuario no encontrado.</p>;
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-md mx-auto bg-white rounded-xl shadow p-8">
+    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <div className="max-w-md mx-auto bg-white rounded-xl shadow p-6 md:p-8">
         <button onClick={() => navigate('/')} className="text-blue-600 hover:underline mb-6 block">
           ← Volver
         </button>

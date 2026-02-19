@@ -7,6 +7,7 @@ interface UsersState {
   allUsers: User[];
   currentPage: number;
   loading: boolean;
+  error: string | null;
 }
 
 // Acciones
@@ -14,6 +15,7 @@ type Action =
   | { type: 'SET_USERS'; payload: User[] }
   | { type: 'SET_PAGE'; payload: number }
   | { type: 'SET_LOADING'; payload: boolean }
+  | { type: 'SET_ERROR'; payload: string | null }
   | { type: 'ADD_USER'; payload: User }
   | { type: 'UPDATE_USER'; payload: User }
   | { type: 'DELETE_USER'; payload: number };
@@ -34,6 +36,8 @@ function usersReducer(state: UsersState, action: Action): UsersState {
       return { ...state, allUsers: state.allUsers.map(u => u.id === action.payload.id ? action.payload : u) };
     case 'DELETE_USER':
       return { ...state, allUsers: state.allUsers.filter(u => u.id !== action.payload) };
+    case 'SET_ERROR':
+      return { ...state, error: action.payload, loading: false };
     default:
       return state;
   }
@@ -46,6 +50,7 @@ interface UsersContextType {
     currentPage: number;
     totalPages: number;
     loading: boolean;
+    error: string | null;
   };
   getUserById: (id: number) => User | undefined;
   addUser: (data: Omit<User, 'id' | 'avatar'>) => void;
@@ -58,16 +63,21 @@ const UsersContext = createContext<UsersContextType | null>(null);
 
 export function UsersProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(usersReducer, {
-    allUsers: [],
-    currentPage: 1,
-    loading: true,
-  });
+  allUsers: [],
+  currentPage: 1,
+  loading: true,
+  error: null,
+});
 
   useEffect(() => {
   dispatch({ type: 'SET_LOADING', payload: true });
-  getUsers(1).then(res => {
-    dispatch({ type: 'SET_USERS', payload: res.data.data });
-  });
+  getUsers(1)
+    .then(res => {
+      dispatch({ type: 'SET_USERS', payload: res.data.data });
+    })
+    .catch(() => {
+      dispatch({ type: 'SET_ERROR', payload: 'Error al cargar los usuarios. Inténtalo de nuevo.' });
+    });
 }, []);
 
   const totalPages = Math.ceil(state.allUsers.length / USERS_PER_PAGE);
