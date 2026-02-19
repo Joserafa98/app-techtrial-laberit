@@ -12,10 +12,11 @@ export default function UserList() {
   const { toast, showToast, hideToast } = useToast();
 
   useEffect(() => {
-    if (location.state?.deleted) {
-      showToast('Usuario eliminado correctamente');
-    }
-  }, []);
+  if (location.state?.deleted) {
+    showToast('Usuario eliminado correctamente', 'error');
+    navigate('/', { replace: true, state: {} });
+  }
+}, []);
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">

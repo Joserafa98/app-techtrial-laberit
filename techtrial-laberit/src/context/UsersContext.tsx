@@ -53,8 +53,8 @@ interface UsersContextType {
     error: string | null;
   };
   getUserById: (id: number) => User | undefined;
-  addUser: (data: Omit<User, 'id' | 'avatar'>) => void;
-  editUser: (id: number, data: Omit<User, 'id' | 'avatar'>) => void;
+  addUser: (data: Omit<User, 'id' | 'avatar'>, avatarUrl?: string) => void;
+  editUser: (id: number, data: Omit<User, 'id' | 'avatar'>, avatarUrl?: string) => void;
   removeUser: (id: number) => void;
   setPage: (page: number) => void;
 }
@@ -88,20 +88,20 @@ export function UsersProvider({ children }: { children: ReactNode }) {
 
   const getUserById = (id: number) => state.allUsers.find(u => u.id === id);
 
-  const addUser = (data: Omit<User, 'id' | 'avatar'>) => {
-    const newUser: User = {
-      ...data,
-      id: Date.now(),
-      avatar: `https://ui-avatars.com/api/?name=${data.first_name}+${data.last_name}&background=random&color=fff`,
-    };
-    dispatch({ type: 'ADD_USER', payload: newUser });
+  const addUser = (data: Omit<User, 'id' | 'avatar'>, avatarUrl?: string) => {
+  const newUser: User = {
+    ...data,
+    id: Date.now(),
+    avatar: avatarUrl || `https://ui-avatars.com/api/?name=${data.first_name}+${data.last_name}&background=random&color=fff`,
   };
+  dispatch({ type: 'ADD_USER', payload: newUser });
+};
 
-  const editUser = (id: number, data: Omit<User, 'id' | 'avatar'>) => {
-    const existing = getUserById(id);
-    if (!existing) return;
-    dispatch({ type: 'UPDATE_USER', payload: { ...existing, ...data } });
-  };
+ const editUser = (id: number, data: Omit<User, 'id' | 'avatar'>, avatarUrl?: string) => {
+  const existing = getUserById(id);
+  if (!existing) return;
+  dispatch({ type: 'UPDATE_USER', payload: { ...existing, ...data, avatar: avatarUrl || existing.avatar } });
+};
 
   const removeUser = (id: number) => {
     dispatch({ type: 'DELETE_USER', payload: id });
